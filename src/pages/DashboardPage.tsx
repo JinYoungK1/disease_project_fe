@@ -370,20 +370,102 @@ const DashboardPage = ({ id, projecttodo_code, type = 'create' }: Props) => {
           ) : (
             <div className="bg-white rounded-lg shadow-lg p-6">
               {chartSeries.length > 0 && chartSeries.some((val) => val > 0) ? (
-                <div className="w-full flex justify-center items-center" style={{ minHeight: '500px', backgroundColor: '#f9fafb' }}>
-                  <div style={{ width: '100%', maxWidth: '800px' }}>
-                    <Chart
-                      options={chartOptions}
-                      series={[
-                        {
-                          name: '발생 마리수',
-                          data: chartSeries,
-                        },
-                      ]}
-                      type="bar"
-                      height={500}
-                      width="100%"
-                    />
+                <div className="flex flex-col lg:flex-row gap-6">
+                  {/* 그래프 영역 */}
+                  <div className="flex-1 flex justify-center items-center" style={{ minHeight: '500px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
+                    <div style={{ width: '100%', maxWidth: '100%' }}>
+                      <Chart
+                        options={chartOptions}
+                        series={[
+                          {
+                            name: '발생 마리수',
+                            data: chartSeries,
+                          },
+                        ]}
+                        type="bar"
+                        height={500}
+                        width="100%"
+                      />
+                    </div>
+                  </div>
+                  
+                  {/* 통계 테이블 영역 */}
+                  <div className="flex-1 lg:max-w-md">
+                    <h3 className="text-lg font-semibold mb-4">상세 통계</h3>
+                    <div className="overflow-x-auto overflow-y-auto" style={{ maxHeight: '500px' }}>
+                      <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-50 sticky top-0">
+                          <tr>
+                            {(filterType === 'year' || filterType === 'month') && (
+                              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                {filterType === 'year' ? '년도' : '월'}
+                              </th>
+                            )}
+                            {filterType === 'day' && (
+                              <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                발생일
+                              </th>
+                            )}
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              전염병명
+                            </th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              건수
+                            </th>
+                            <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              마리수
+                            </th>
+                            {filterType === 'all' && (
+                              <>
+                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                  최초일
+                                </th>
+                                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                  최근일
+                                </th>
+                              </>
+                            )}
+                          </tr>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                          {chartData.map((item: any, index: number) => (
+                            <tr key={index} className="hover:bg-gray-50">
+                              {(filterType === 'year' || filterType === 'month') && (
+                                <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+                                  {filterType === 'year' 
+                                    ? `${item.year}년`
+                                    : `${item.year}년 ${item.month}월`}
+                                </td>
+                              )} 
+                              {filterType === 'day' && (
+                                <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+                                  {item.occurrenceDate || '-'}
+                                </td>
+                              )}
+                              <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">
+                                {item.diseaseName || '미분류'}
+                              </td>
+                              <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+                                {item.occurrenceCount?.toLocaleString() || 0}
+                              </td>
+                              <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+                                {item.totalLivestockCount?.toLocaleString() || 0}
+                              </td>
+                              {filterType === 'all' && (
+                                <>
+                                  <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+                                    {item.firstOccurrenceDate || '-'}
+                                  </td>
+                                  <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
+                                    {item.lastOccurrenceDate || '-'}
+                                  </td>
+                                </>
+                              )}
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               ) : (
@@ -391,85 +473,6 @@ const DashboardPage = ({ id, projecttodo_code, type = 'create' }: Props) => {
                   <div className="text-gray-500">차트 데이터가 없습니다.</div>
                 </div>
               )}
-              
-              {/* 통계 테이블 */}
-              <div className="mt-8">
-                <h3 className="text-lg font-semibold mb-4">상세 통계</h3>
-                <div className="overflow-x-auto">
-                  <table className="min-w-full divide-y divide-gray-200">
-                    <thead className="bg-gray-50">
-                      <tr>
-                        {(filterType === 'year' || filterType === 'month') && (
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            {filterType === 'year' ? '년도' : '월'}
-                          </th>
-                        )}
-                        {filterType === 'day' && (
-                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            발생일
-                          </th>
-                        )}
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          전염병명
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          발생 건수
-                        </th>
-                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          발생 마리수
-                        </th>
-                        {filterType === 'all' && (
-                          <>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              최초 발생일
-                            </th>
-                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              최근 발생일
-                            </th>
-                          </>
-                        )}
-                      </tr>
-                    </thead>
-                    <tbody className="bg-white divide-y divide-gray-200">
-                      {chartData.map((item: any, index: number) => (
-                        <tr key={index} className="hover:bg-gray-50">
-                          {(filterType === 'year' || filterType === 'month') && (
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                              {filterType === 'year' 
-                                ? `${item.year}년`
-                                : `${item.year}년 ${item.month}월`}
-                            </td>
-                          )} 
-                          {filterType === 'day' && (
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                              {item.occurrenceDate || '-'}
-                            </td>
-                          )}
-                          <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                            {item.diseaseName || '미분류'}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {item.occurrenceCount?.toLocaleString() || 0}건
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            {item.totalLivestockCount?.toLocaleString() || 0}마리
-                          </td>
-                          {filterType === 'all' && (
-                            <>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {item.firstOccurrenceDate || '-'}
-                              </td>
-                              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                {item.lastOccurrenceDate || '-'}
-                              </td>
-                            </>
-                          )}
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
             </div>
           )}
       </div>
