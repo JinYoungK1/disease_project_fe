@@ -11,6 +11,25 @@ import {
 } from '~/api/diseaseOccurrence';
 import { DiseaseStatisticsByDisease } from '~/@types/diseaseOccurrence';
 
+// 날짜 포맷 함수 (YYYYMMDD -> YYYY/MM/DD)
+const formatDate = (dateString: string | null | undefined): string => {
+  if (!dateString) return '-';
+  const str = String(dateString);
+  if (str.length === 8) {
+    return `${str.substring(0, 4)}/${str.substring(4, 6)}/${str.substring(6, 8)}`;
+  }
+  return dateString;
+};
+
+// 전염병명 포맷 함수 (마지막 "형" 제거)
+const formatDiseaseName = (diseaseName: string | null | undefined): string => {
+  if (!diseaseName) return '미분류';
+  if (diseaseName.endsWith('형')) {
+    return diseaseName.slice(0, -1);
+  }
+  return diseaseName;
+};
+
 interface Props {
   type?: 'create' | 'edit';
   id?: number;
@@ -123,10 +142,10 @@ const DashboardPage = ({ id, projecttodo_code, type = 'create' }: Props) => {
   }, {});
 
   const finalChartData = Object.values(groupedData).sort((a: any, b: any) => 
-    (b.totalLivestockCount || 0) - (a.totalLivestockCount || 0)
+    (b.occurrenceCount || 0) - (a.occurrenceCount || 0)
   ) as DiseaseStatisticsByDisease[];
   
-  const chartSeries = finalChartData.map((item) => item.totalLivestockCount || 0);
+  const chartSeries = finalChartData.map((item) => item.occurrenceCount || 0);
 
   // 년도 목록 생성 (2000년부터 현재까지)
   const maxYear = new Date().getFullYear();
@@ -169,6 +188,7 @@ const DashboardPage = ({ id, projecttodo_code, type = 'create' }: Props) => {
       toolbar: {
         show: false,
       },
+      height: 515,
     },
     plotOptions: {
       bar: {
@@ -192,7 +212,7 @@ const DashboardPage = ({ id, projecttodo_code, type = 'create' }: Props) => {
       },
     },
     xaxis: {
-      categories: finalChartData.map((item) => item.diseaseName || '미분류'),
+      categories: finalChartData.map((item) => formatDiseaseName(item.diseaseName)),
       labels: {
         rotate: -45,
         rotateAlways: true,
@@ -203,7 +223,7 @@ const DashboardPage = ({ id, projecttodo_code, type = 'create' }: Props) => {
     },
     yaxis: {
       title: {
-        text: '발생 마리수',
+        text: '발생 건수',
       },
       labels: {
         formatter: function (val: number) {
@@ -214,7 +234,7 @@ const DashboardPage = ({ id, projecttodo_code, type = 'create' }: Props) => {
     tooltip: {
       y: {
         formatter: function (value: number) {
-          return value.toLocaleString() + '마리';
+          return value.toLocaleString() + '건';
         },
       },
     },
@@ -258,18 +278,9 @@ const DashboardPage = ({ id, projecttodo_code, type = 'create' }: Props) => {
             
           </div>
 
-          {isLoading ? (
-            <div className="flex items-center justify-center h-96">
-              <div className="text-gray-500">데이터를 불러오는 중...</div>
-            </div>
-          ) : finalChartData.length === 0 ? (
-            <div className="flex items-center justify-center h-96">
-              <div className="text-gray-500">데이터가 없습니다.</div>
-            </div>
-          ) : (
-            <div className="bg-white rounded-lg shadow-lg p-6">
-              {/* 필터 섹션 */}
-              <div className="mb-6 pb-4 border-b border-gray-200">
+          <div className="bg-white rounded-lg shadow-lg p-6">
+            {/* 필터 섹션 */}
+            <div className="mb-6 pb-4 border-b border-gray-200">
                 <div className="flex flex-wrap items-center gap-4">
                   <div className="flex items-center gap-2">
                     <label className="text-sm font-medium text-gray-700 whitespace-nowrap">조회 기간</label>
@@ -368,28 +379,38 @@ const DashboardPage = ({ id, projecttodo_code, type = 'create' }: Props) => {
                   )}
                 </div>
               </div>
-              {chartSeries.length > 0 && chartSeries.some((val) => val > 0) ? (
+              
+              {/* 데이터 표시 영역 */}
+              {isLoading ? (
+                <div className="flex items-center justify-center h-96">
+                  <div className="text-gray-500">데이터를 불러오는 중...</div>
+                </div>
+              ) : finalChartData.length === 0 ? (
+                <div className="flex items-center justify-center h-96">
+                  <div className="text-gray-500">데이터가 없습니다.</div>
+                </div>
+              ) : chartSeries.length > 0 && chartSeries.some((val) => val > 0) ? (
                 <div className="flex flex-col lg:flex-row gap-6">
                   {/* 그래프 영역 */}
-                  <div className="flex-1 flex justify-center items-center" style={{ minHeight: '500px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
+                  <div className="flex-1 flex justify-center items-center" style={{ minHeight: '515px', backgroundColor: '#f9fafb', borderRadius: '8px' }}>
                     <div style={{ width: '100%', maxWidth: '100%' }}>
                       <Chart
                         options={chartOptions}
                         series={[
                           {
-                            name: '발생 마리수',
+                            name: '발생 건수',
                             data: chartSeries,
                           },
                         ]}
                         type="bar"
-                        height={500}
+                        height={515}
                         width="100%"
                       />
                     </div>
                   </div>
                   
                   {/* 통계 테이블 영역 */}
-                  <div className="flex-1 lg:max-w-md">
+                  <div className="flex-1">
                     <h3 className="text-lg font-semibold mb-4">상세 통계</h3>
                     <div className="overflow-x-auto overflow-y-auto" style={{ maxHeight: '500px' }}>
                       <table className="min-w-full divide-y divide-gray-200">
@@ -442,21 +463,21 @@ const DashboardPage = ({ id, projecttodo_code, type = 'create' }: Props) => {
                                 </td>
                               )}
                               <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">
-                                {item.diseaseName || '미분류'}
+                                {formatDiseaseName(item.diseaseName)}
                               </td>
                               <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
-                                {item.occurrenceCount?.toLocaleString() || 0}
+                                {Number(item.occurrenceCount || 0).toLocaleString()}
                               </td>
                               <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
-                                {item.totalLivestockCount?.toLocaleString() || 0}
+                                {Number(item.totalLivestockCount || 0).toLocaleString()}
                               </td>
                               {filterType === 'all' && (
                                 <>
                                   <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
-                                    {item.firstOccurrenceDate || '-'}
+                                    {formatDate(item.firstOccurrenceDate)}
                                   </td>
                                   <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
-                                    {item.lastOccurrenceDate || '-'}
+                                    {formatDate(item.lastOccurrenceDate)}
                                   </td>
                                 </>
                               )}
@@ -473,7 +494,6 @@ const DashboardPage = ({ id, projecttodo_code, type = 'create' }: Props) => {
                 </div>
               )}
             </div>
-          )}
       </div>
       </ContentsWrap>
     </Wrap>
