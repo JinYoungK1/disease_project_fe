@@ -252,111 +252,10 @@ const DashboardPage = ({ id, projecttodo_code, type = 'create' }: Props) => {
   return (
     <Wrap className="main_wrap" title={'대시보드'}>
       <ContentsWrap>
-        <div className="relative h-full w-screen p-6">
+        <div className="relative h-full w-full p-6">
           <div className="mb-6">
             <h2 className="text-2xl font-bold text-gray-800">전염병 발생 통계</h2>
-            <p className="text-gray-600 mt-1">전염병별 발생 마리수 합계</p>
-          </div>
-
-          {/* 필터 섹션 */}
-          <div className="mb-6 bg-white rounded-lg shadow-md p-4">
-            <div className="flex flex-wrap items-end gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">조회 기간</label>
-                <select
-                  value={filterType}
-                  onChange={(e) => setFilterType(e.target.value as 'all' | 'year' | 'month' | 'day')}
-                  className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="all">전체</option>
-                  <option value="year">년별</option>
-                  <option value="month">월별</option>
-                  <option value="day">일별</option>
-                </select>
-              </div>
-
-              {filterType === 'year' && (
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">년도 선택</label>
-                  <select
-                    value={selectedYear}
-                    onChange={(e) => setSelectedYear(e.target.value)}
-                    className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  >
-                    <option value="">전체</option>
-                    {years.map((year) => (
-                      <option key={year} value={year}>
-                        {year}년
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              )}
-
-              {filterType === 'month' && (
-                <>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">년도 선택</label>
-                    <select
-                      value={selectedYear}
-                      onChange={(e) => setSelectedYear(e.target.value)}
-                      className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                      <option value="">년도 선택</option>
-                      {years.map((year) => (
-                        <option key={year} value={year}>
-                          {year}년
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  {selectedYear && (
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">월 선택</label>
-                      <select
-                        value={selectedMonth}
-                        onChange={(e) => setSelectedMonth(e.target.value)}
-                        className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      >
-                        <option value="">전체</option>
-                        {months.map((month) => (
-                          <option key={month} value={month}>
-                            {month}월
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  )}
-                </>
-              )}
-
-              {filterType === 'day' && (
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">날짜 범위 선택</label>
-                  <DateRanges
-                    placeholder="날짜 범위를 선택하세요"
-                    dateFormat="yyyyMMdd"
-                    defaultValue={
-                      startDate && endDate
-                        ? { startDate, endDate }
-                        : undefined
-                    }
-                    onRangeChange={(range: { startDate: string | null; endDate: string | null }) => {
-                      if (range.startDate && range.endDate) {
-                        setStartDate(range.startDate);
-                        setEndDate(range.endDate);
-                        // 날짜 범위 선택 시 년도/월 선택은 무시
-                        setSelectedYear('');
-                        setSelectedMonth('');
-                      } else {
-                        setStartDate('');
-                        setEndDate('');
-                      }
-                    }}
-                  />
-                </div>
-              )}
-            </div>
+            
           </div>
 
           {isLoading ? (
@@ -369,6 +268,106 @@ const DashboardPage = ({ id, projecttodo_code, type = 'create' }: Props) => {
             </div>
           ) : (
             <div className="bg-white rounded-lg shadow-lg p-6">
+              {/* 필터 섹션 */}
+              <div className="mb-6 pb-4 border-b border-gray-200">
+                <div className="flex flex-wrap items-center gap-4">
+                  <div className="flex items-center gap-2">
+                    <label className="text-sm font-medium text-gray-700 whitespace-nowrap">조회 기간</label>
+                    <select
+                      value={filterType}
+                      onChange={(e) => setFilterType(e.target.value as 'all' | 'year' | 'month' | 'day')}
+                      className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="all">전체</option>
+                      <option value="year">년별</option>
+                      <option value="month">월별</option>
+                      <option value="day">일별</option>
+                    </select>
+                  </div>
+
+                  {filterType === 'year' && (
+                    <div className="flex items-center gap-2">
+                      <label className="text-sm font-medium text-gray-700 whitespace-nowrap">년도 선택</label>
+                      <select
+                        value={selectedYear}
+                        onChange={(e) => setSelectedYear(e.target.value)}
+                        className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        <option value="">전체</option>
+                        {years.map((year) => (
+                          <option key={year} value={year}>
+                            {year}년
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+
+                  {filterType === 'month' && (
+                    <>
+                      <div className="flex items-center gap-2">
+                        <label className="text-sm font-medium text-gray-700 whitespace-nowrap">년도 선택</label>
+                        <select
+                          value={selectedYear}
+                          onChange={(e) => setSelectedYear(e.target.value)}
+                          className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                          <option value="">년도 선택</option>
+                          {years.map((year) => (
+                            <option key={year} value={year}>
+                              {year}년
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                      {selectedYear && (
+                        <div className="flex items-center gap-2">
+                          <label className="text-sm font-medium text-gray-700 whitespace-nowrap">월 선택</label>
+                          <select
+                            value={selectedMonth}
+                            onChange={(e) => setSelectedMonth(e.target.value)}
+                            className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                          >
+                            <option value="">전체</option>
+                            {months.map((month) => (
+                              <option key={month} value={month}>
+                                {month}월
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                      )}
+                    </>
+                  )}
+
+                  {filterType === 'day' && (
+                    <div className="flex items-center gap-2">
+                      <label className="text-sm font-medium text-gray-700 whitespace-nowrap">날짜 범위 선택</label>
+                      <DateRanges
+                        placeholder="날짜 범위를 선택하세요"
+                        dateFormat="yyyyMMdd"
+                        defaultValue={
+                          startDate && endDate
+                            ? { startDate, endDate }
+                            : undefined
+                        }
+                        onRangeChange={(range: { startDate: string | null; endDate: string | null }) => {
+                          if (range.startDate && range.endDate) {
+                            setStartDate(range.startDate);
+                            setEndDate(range.endDate);
+                            // 날짜 범위 선택 시 년도/월 선택은 무시
+                            setSelectedYear('');
+                            setSelectedMonth('');
+                          } else {
+                            setStartDate('');
+                            setEndDate('');
+                          }
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
               {chartSeries.length > 0 && chartSeries.some((val) => val > 0) ? (
                 <div className="flex flex-col lg:flex-row gap-6">
                   {/* 그래프 영역 */}
