@@ -1,0 +1,3 @@
+import IMG_ONMIRANG_LOGO from './IMG_ONMIRANG_LOGO.png';
+
+export { IMG_ONMIRANG_LOGO };

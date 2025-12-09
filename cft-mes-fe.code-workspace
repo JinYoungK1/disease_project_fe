@@ -1,0 +1,59 @@
+{
+  "folders": [
+    {
+      "path": "./",
+    },
+  ],
+  "settings": {
+    "files.encoding": "utf8",
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.tabSize": 2,
+    "editor.formatOnPaste": false, // required
+    "editor.formatOnType": false, // required
+    "editor.formatOnSave": true, // optional
+    "editor.codeActionsOnSave": {
+      "source.fixAll": "explicit",
+      "source.fixAll.eslint": "explicit",
+    },
+    "workbench.editor.wrapTabs": true,
+    "workbench.editor.revealIfOpen": true,
+    "tailwindCSS.experimental.configFile": "./tailwind.config.js",
+    "editor.quickSuggestions": {
+      "strings": "on",
+    },
+    "[javascript]": {
+      "editor.rulers": [100],
+      "editor.tabSize": 2,
+    },
+    "[javascriptreact]": {
+      "editor.rulers": [100],
+      "editor.tabSize": 2,
+    },
+    "[typescript]": {
+      "editor.rulers": [100],
+      "editor.tabSize": 2,
+    },
+    "[typescriptreact]": {
+      "editor.rulers": [100],
+      "editor.tabSize": 2,
+    },
+    "css.lint.unknownAtRules": "ignore",
+    "workbench.colorTheme": "GitHub Dark Mode",
+  },
+  "extensions": {
+    "recommendations": [
+      "rodrigovallades.es7-react-js-snippets",
+      "formulahendry.auto-close-tag",
+      "formulahendry.auto-rename-tag",
+      "esbenp.prettier-vscode",
+      "dracula-theme.theme-dracula",
+      "mathcale.theme-dracula-refined",
+      "dsznajder.es7-react-js-snippets",
+      "rodrigovallades.es7-react-js-snippets",
+      "gerane.Theme-Dark-Dracula",
+      "mhutchie.git-graph",
+      "donjayamanne.githistory",
+      "bradlc.vscode-tailwindcss",
+    ],
+  },
+}

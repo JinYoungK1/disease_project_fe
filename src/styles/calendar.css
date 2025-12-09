@@ -1,0 +1,23 @@
+.fc-day-sun a {
+  color: red;
+}
+
+.fc-day-sat a {
+  color: blue;
+}
+
+.fc-registButton-button {
+  height: 41px;
+}
+.fc-daygrid-event {
+  border: none;
+}
+.fc-daygrid-event-harness {
+  background-color: rgb(251, 217, 93);
+}
+.fc-event-main {
+  background-color: transparent;
+}
+.fc-event {
+  background-color: transparent;
+}

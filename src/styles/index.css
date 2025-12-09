@@ -1,0 +1,29 @@
+@import './rc_pagenation.css';
+@import './react_calendar.css';
+
+html,
+body,
+#root,
+#wrap {
+  display: block;
+  height: 100%;
+}
+
+.react-tabs__tab:focus {
+  border: none !important;
+}
+
+.react-tabs__tab--selected {
+  border: none !important;
+}
+
+/* 탭 호버 효과 추가 */
+.react-tabs__tab:hover {
+  background-color: #f3f4f6 !important; /* 연한 회색 */
+  transition: background-color 0.2s ease;
+}
+
+/* 선택된 탭은 호버 효과 제외 */
+.react-tabs__tab--selected:hover {
+  background-color: inherit !important;
+}

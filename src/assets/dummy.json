@@ -1,0 +1,262 @@
+{
+  "result": true,
+  "data": [
+    {
+      "id": 2,
+      "group_name": "생산",
+      "group_all_grant": true,
+      "menu": {
+        "result": [
+          {
+            "key": "referenceInfo",
+            "view": true,
+            "title": "기준정보",
+            "submenu": [
+              {
+                "key": "businessInfo",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "사업장정보"
+              },
+              {
+                "key": "customerInfo",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "고객정보"
+              },
+              {
+                "key": "itemInfo",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "품목정보"
+              },
+              {
+                "key": "recipeInfo",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "레시피정보"
+              },
+              {
+                "key": "warehouseManage",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "창고정보"
+              },
+              {
+                "key": "employeeInfo",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "사원정보"
+              },
+              {
+                "key": "authorityManage",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "권한관리"
+              },
+              {
+                "key": "calendar",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "캘린더"
+              },
+              {
+                "key": "comprehensiveSetting",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "통합설정"
+              }
+            ]
+          },
+          {
+            "key": "businessManage",
+            "view": true,
+            "title": "영업관리",
+            "submenu": [
+              {
+                "key": "orderManage",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "주문관리"
+              },
+              {
+                "key": "receivingManage",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "입고관리"
+              },
+              {
+                "key": "shipmentManage",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "출하관리"
+              },
+              {
+                "key": "deliveryManage",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "납품관리"
+              }
+            ]
+          },
+          {
+            "key": "productionManage",
+            "view": true,
+            "title": "생산관리",
+            "submenu": [
+              {
+                "key": "production",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "생산(할복)"
+              },
+              {
+                "key": "primaryPackaging",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "1차포장"
+              },
+              {
+                "key": "secondaryPackaging",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "2차포장"
+              },
+              {
+                "key": "stock",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "재고"
+              },
+              {
+                "key": "packagingFormat",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "포장형식"
+              },
+              {
+                "key": "costManagement",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "원가계산"
+              }
+            ]
+          },
+          {
+            "key": "qualityControl",
+            "view": true,
+            "title": "품질관리",
+            "submenu": [
+              {
+                "key": "problemHandling",
+                "CRUD": ["C", "R", "U", "D"],
+                "title": "문제처리"
+              }
+            ]
+          },
+          {
+            "key": "accountingManage",
+            "view": true,
+            "title": "회계관리",
+            "submenu": [
+              {
+                "key": "issuanceTaxInvoices",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "세금계산서 발행"
+              },
+              {
+                "key": "checkCashReceiptDetails",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "현금영수증 내역 조회"
+              },
+              {
+                "key": "inquiryBusinessCreditCardUsage",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "법인카드 사용내역 조회"
+              },
+              {
+                "key": "businessRegistrationStatusInquiry",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "사업자등록 상태조회"
+              },
+              {
+                "key": "issueElectronicTaxInvoiceModification",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "전자세금계산서 수정발행"
+              },
+              {
+                "key": "headOfClient",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "거래처 장"
+              }
+            ]
+          },
+          {
+            "key": "constructionmanage",
+            "view": true,
+            "title": "HACCP 관리",
+            "submenu": [
+              {
+                "key": "constructionmanage",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "HACCP 관리"
+              }
+            ]
+          },
+          {
+            "key": "employeeManage",
+            "view": true,
+            "title": "사원관리",
+            "submenu": [
+              {
+                "key": "salary",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "급여"
+              },
+              {
+                "key": "toDoList",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "할일 목록"
+              },
+              {
+                "key": "project",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "프로젝트"
+              },
+              {
+                "key": "payLog",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "급여 기록"
+              },
+              {
+                "key": "congratulationsCondolences",
+                "CRUD": ["C", "R", "U", "D"],
+                "view": true,
+                "title": "경조사"
+              }
+            ]
+          },
+          {
+            "key": "monitoring",
+            "view": true,
+            "title": "모니터링",
+            "submenu": []
+          }
+        ]
+      },
+      "createdAt": "2024-06-15T11:06:53.000Z",
+      "updatedAt": "2024-06-15T11:06:53.000Z"
+    }
+  ]
+}

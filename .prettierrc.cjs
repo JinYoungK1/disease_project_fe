@@ -1,0 +1,40 @@
+module.exports = {
+  plugins: [
+    '@trivago/prettier-plugin-sort-imports',
+    'prettier-plugin-tailwindcss',
+  ],
+  importOrder: [
+    '^.+\\.css$',
+    '^[./].*\\.css$',
+    '^[a-zA-Z0-9].*\\.css$',
+    '^react',
+    '<THIRD_PARTY_MODULES>',
+    '^@core/(.*)$',
+    '^@ui/(.*)$',
+    '^[~/]',
+    '^[./]',
+    '\\.(png|jpe?g|gif|svg|webp)$',
+  ],
+  printWidth: 80,
+  tabWidth: 2,
+  useTabs: false,
+  trailingComma: 'es5',
+  singleQuote: true,
+  endOfLine: 'auto',
+  bracketSpacing: true,
+  semi: true,
+  bracketSameLine: true,
+  importOrderSeparation: true,
+  importOrderSortSpecifiers: true,
+  tailwindConfig: './tailwind.config.js',
+  tailwindAttributes: ['className'],
+  tailwindFunctions: ['clsx'],
+  overrides: [
+    {
+      files: '*.json',
+      options: {
+        printWidth: 200,
+      },
+    },
+  ],
+};
