@@ -278,7 +278,7 @@ const DashboardPage = ({ id, projecttodo_code, type = 'create' }: Props) => {
             
           </div>
 
-          <div className="bg-white rounded-lg shadow-lg p-6">
+          <div className="bg-white rounded-lg shadow-lg p-4">
             {/* 필터 섹션 */}
             <div className="mb-6 pb-4 border-b border-gray-200">
                 <div className="flex flex-wrap items-center gap-4">
