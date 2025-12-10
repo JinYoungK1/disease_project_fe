@@ -1,7 +1,5 @@
-import 'react-calendar/dist/Calendar.css';
 import React, { useState } from 'react';
 import { ContentsWrap, Wrap } from '~/components/common';
-import { DateRanges } from '~/components/Datepickers';
 import { useGetDiseasePredictionList } from '~/api/diseasePrediction';
 
 // 날짜 포맷 함수 (YYYYMMDD -> YYYY/MM/DD)
@@ -52,33 +50,18 @@ interface Props {
 }
 
 const DiseasePredictionPage = ({ id, projecttodo_code, type = 'create' }: Props) => {
-  // 현재 날짜 정보
-  const today = new Date();
-  const currentYear = today.getFullYear().toString();
-  const currentMonth = String(today.getMonth() + 1).padStart(2, '0');
-  const currentDay = String(today.getDate()).padStart(2, '0');
-  const todayString = `${currentYear}${currentMonth}${currentDay}`;
-
   // 필터 상태
   const [page, setPage] = useState<number>(1);
   const [limit] = useState<number>(20);
   const [lknts_nm, setLknts_nm] = useState<string>('');
-  const [startDate, setStartDate] = useState<string>('');
-  const [endDate, setEndDate] = useState<string>('');
   const [upcoming, setUpcoming] = useState<boolean>(false);
-  const [risk_level, setRisk_level] = useState<string>('');
-  const [min_confidence, setMin_confidence] = useState<string>('');
 
   // API 호출
   const { data: predictionData, isLoading } = useGetDiseasePredictionList({
     page,
     limit,
     lknts_nm: lknts_nm || undefined,
-    startDate: startDate || undefined,
-    endDate: endDate || undefined,
     upcoming,
-    risk_level: risk_level || undefined,
-    min_confidence: min_confidence ? parseFloat(min_confidence) : undefined,
   });
 
   const predictions = predictionData?.data?.list || [];
@@ -88,11 +71,7 @@ const DiseasePredictionPage = ({ id, projecttodo_code, type = 'create' }: Props)
   const handleResetFilters = () => {
     setPage(1);
     setLknts_nm('');
-    setStartDate('');
-    setEndDate('');
     setUpcoming(false);
-    setRisk_level('');
-    setMin_confidence('');
   };
 
   // 페이지 변경
@@ -111,7 +90,7 @@ const DiseasePredictionPage = ({ id, projecttodo_code, type = 'create' }: Props)
 
           {/* 필터 섹션 */}
           <div className="mb-6 pb-4 border-b border-gray-200 bg-white rounded-lg shadow-md p-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="flex flex-wrap items-end gap-4">
               {/* 전염병명 필터 */}
               <div className="flex flex-col">
                 <label className="text-sm font-medium text-gray-700 mb-1">전염병명</label>
@@ -124,30 +103,6 @@ const DiseasePredictionPage = ({ id, projecttodo_code, type = 'create' }: Props)
                   }}
                   placeholder="전염병명 검색"
                   className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              {/* 날짜 범위 필터 */}
-              <div className="flex flex-col">
-                <label className="text-sm font-medium text-gray-700 mb-1">예측 날짜 범위</label>
-                <DateRanges
-                  placeholder="날짜 범위를 선택하세요"
-                  dateFormat="yyyyMMdd"
-                  defaultValue={
-                    startDate && endDate
-                      ? { startDate, endDate }
-                      : undefined
-                  }
-                  onRangeChange={(range: { startDate: string | null; endDate: string | null }) => {
-                    if (range.startDate && range.endDate) {
-                      setStartDate(range.startDate);
-                      setEndDate(range.endDate);
-                      setPage(1);
-                    } else {
-                      setStartDate('');
-                      setEndDate('');
-                    }
-                  }}
                 />
               </div>
 
@@ -167,45 +122,7 @@ const DiseasePredictionPage = ({ id, projecttodo_code, type = 'create' }: Props)
                 </label>
               </div>
 
-              {/* 위험도 필터 */}
-              <div className="flex flex-col">
-                <label className="text-sm font-medium text-gray-700 mb-1">위험도</label>
-                <select
-                  value={risk_level}
-                  onChange={(e) => {
-                    setRisk_level(e.target.value);
-                    setPage(1);
-                  }}
-                  className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="">전체</option>
-                  <option value="high">높음</option>
-                  <option value="medium">보통</option>
-                  <option value="low">낮음</option>
-                </select>
-              </div>
-
-              {/* 최소 신뢰도 필터 */}
-              <div className="flex flex-col">
-                <label className="text-sm font-medium text-gray-700 mb-1">최소 신뢰도</label>
-                <input
-                  type="number"
-                  min="0"
-                  max="100"
-                  step="0.1"
-                  value={min_confidence}
-                  onChange={(e) => {
-                    setMin_confidence(e.target.value);
-                    setPage(1);
-                  }}
-                  placeholder="0-100"
-                  className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-            </div>
-
-            {/* 필터 초기화 버튼 */}
-            <div className="mt-4 flex justify-end">
+              {/* 필터 초기화 버튼 */}
               <button
                 onClick={handleResetFilters}
                 className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200 transition-colors"
@@ -232,9 +149,9 @@ const DiseasePredictionPage = ({ id, projecttodo_code, type = 'create' }: Props)
               </div>
 
               {/* 테이블 */}
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto overflow-y-auto" style={{ maxHeight: '400px' }}>
                 <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
+                  <thead className="bg-gray-50 sticky top-0">
                     <tr>
                       <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         예측일
