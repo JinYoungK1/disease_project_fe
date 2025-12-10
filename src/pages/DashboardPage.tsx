@@ -274,7 +274,7 @@ const DashboardPage = ({ id, projecttodo_code, type = 'create' }: Props) => {
       <ContentsWrap>
         <div className="relative h-full w-full p-6">
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-gray-800">전염병 발생 통계</h2>
+            <h2 className="text-2xl font-bold text-gray-800">질병 발생 통계</h2>
             
           </div>
 
@@ -427,7 +427,7 @@ const DashboardPage = ({ id, projecttodo_code, type = 'create' }: Props) => {
                               </th>
                             )}
                             <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              전염병명
+                              질병명
                             </th>
                             <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                               건수

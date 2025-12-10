@@ -93,7 +93,7 @@ const DiseasePredictionPage = ({ id, projecttodo_code, type = 'create' }: Props)
             <div className="flex flex-wrap items-end gap-4">
               {/* 전염병명 필터 */}
               <div className="flex flex-col">
-                <label className="text-sm font-medium text-gray-700 mb-1">전염병명</label>
+                <label className="text-sm font-medium text-gray-700 mb-1">질병명</label>
                 <input
                   type="text"
                   value={lknts_nm}
@@ -101,7 +101,7 @@ const DiseasePredictionPage = ({ id, projecttodo_code, type = 'create' }: Props)
                     setLknts_nm(e.target.value);
                     setPage(1);
                   }}
-                  placeholder="전염병명 검색"
+                  placeholder="질병명 검색"
                   className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               </div>
@@ -157,7 +157,7 @@ const DiseasePredictionPage = ({ id, projecttodo_code, type = 'create' }: Props)
                         예측일
                       </th>
                       <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        전염병명
+                        질병명
                       </th>
                       <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         위험도
