@@ -7,9 +7,7 @@ function Header() {
 
   const menuItems = [
     { path: '/', label: '대시보드' },
-    // 여기에 추가 메뉴 항목을 넣을 수 있습니다
-    // { path: '/page1', label: '페이지1' },
-    // { path: '/page2', label: '페이지2' },
+    { path: '/disease-prediction', label: '질병예측' },
   ];
 
   const handleMenuClick = (path: string) => {
