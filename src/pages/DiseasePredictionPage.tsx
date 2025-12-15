@@ -43,6 +43,27 @@ const getRiskLevelColor = (riskLevel: string | null | undefined): string => {
   return colorMap[riskLevel.toLowerCase()] || 'text-gray-500';
 };
 
+// 예측 근거 포맷 함수 (과거 ~ 발생까지만 표시)
+const formatPredictionBasis = (basis: string | object | null | undefined): string => {
+  if (!basis) return '-';
+  
+  let text = '';
+  if (typeof basis === 'string') {
+    text = basis;
+  } else {
+    text = JSON.stringify(basis);
+  }
+  
+  // "과거"부터 "발생"까지의 부분 추출
+  const match = text.match(/과거.*?발생/);
+  if (match) {
+    return match[0] + '...';
+  }
+  
+  // 매칭되지 않으면 원본 반환
+  return text;
+};
+
 interface Props {
   type?: 'create' | 'edit';
   id?: number;
@@ -85,7 +106,7 @@ const DiseasePredictionPage = ({ id, projecttodo_code, type = 'create' }: Props)
       <ContentsWrap>
         <div className="relative h-full w-full p-6">
           <div className="mb-6">
-            <h2 className="text-2xl font-bold text-gray-800">질병 예측 조회</h2>
+            <h2 className="text-2xl font-bold text-gray-800">질병 예측</h2>
           </div>
 
           {/* 필터 섹션 */}
@@ -194,11 +215,7 @@ const DiseasePredictionPage = ({ id, projecttodo_code, type = 'create' }: Props)
                             : '-'}
                         </td>
                         <td className="px-4 py-3 text-sm text-gray-500">
-                          {prediction.prediction_basis
-                            ? typeof prediction.prediction_basis === 'string'
-                              ? prediction.prediction_basis
-                              : JSON.stringify(prediction.prediction_basis)
-                            : '-'}
+                          {formatPredictionBasis(prediction.prediction_basis)}
                         </td>
                       </tr>
                     ))}
