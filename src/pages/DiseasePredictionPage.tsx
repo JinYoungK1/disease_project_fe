@@ -102,7 +102,7 @@ const DiseasePredictionPage = ({ id, projecttodo_code, type = 'create' }: Props)
   };
 
   return (
-    <Wrap className="main_wrap" title={'질병 예측 조회'}>
+    <Wrap className="main_wrap" title={'질병 예측'}>
       <ContentsWrap>
         <div className="relative h-full w-full p-6">
           <div className="mb-6">
